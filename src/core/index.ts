@@ -1,5 +1,5 @@
 export { configuration } from './configuration'
-export { loader } from './loader'
+export { loader, getSourceDir } from './loader'
 export { createError } from './error'
 
 export {

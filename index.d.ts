@@ -63,6 +63,7 @@ export declare function createServer(fastifyOpts?: fastify.ServerOptions): Promi
 export declare function start(server: FastifyInstance): Promise<void>
 export declare function createError(name: string, error: Error): Error
 export declare function loader (): Promise<void>
+export declare function getSourceDir (): string
 
 export declare const gatewayControllerContainer: any[]
 export declare const gatewayContainer: Map<string | symbol | Object, any>
