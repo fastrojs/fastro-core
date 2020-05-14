@@ -1,7 +1,6 @@
 import { Controller, InjectService, Get } from '../../core'
 import { UserService } from './user.service'
-import { FastifyRequest, FastifyReply } from 'fastify'
-import { ServerResponse } from 'http'
+import { FastifyRequestInterface, FastifyReplyInterface } from 'fastify'
 
 @Controller({ prefix: 'user' })
 export class UserController {
@@ -9,8 +8,8 @@ export class UserController {
   userService: UserService
 
   @Get()
-  async getAll (request: FastifyRequest, reply: FastifyReply<ServerResponse>): Promise<void> {
+  async getAll (request: FastifyRequestInterface, reply: FastifyReplyInterface): Promise<void> {
     const users = await this.userService.helloUser()
-    reply.sendOk(users)
+    reply.ok(users)
   }
 }

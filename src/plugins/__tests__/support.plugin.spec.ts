@@ -1,6 +1,6 @@
-import fastify from 'fastify'
 import fp from 'fastify-plugin'
 import { plugin } from '../support.plugin'
+import fastify from 'fastify'
 
 const server = fastify()
 

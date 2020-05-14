@@ -1,14 +1,11 @@
 {
   "name": "@fastro/core",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Dependency injection ready",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "dependencies": {
-    "fastify": "^2.14.1",
-    "fastify-plugin": "^1.6.1",
+    "fastify": "^3.0.0-rc.2",
+    "fastify-plugin": "^2.0.0",
     "glob-promise": "^3.4.0",
     "reflect-metadata": "^0.1.13"
   },
@@ -16,12 +13,12 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-typescript": "^7.9.0",
     "@types/bluebird": "^3.5.30",
-    "@types/jest": "^25.2.1",
-    "@types/node": "^13.13.5",
+    "@types/jest": "^25.2.2",
+    "@types/node": "^13.13.6",
     "@types/validator": "^12.0.1",
-    "@typescript-eslint/eslint-plugin": "^2.32.0",
-    "@typescript-eslint/eslint-plugin-tslint": "^2.32.0",
-    "@typescript-eslint/parser": "^2.32.0",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
@@ -30,12 +27,11 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^25.5.4",
-    "mysql2": "^2.1.0",
     "nodemon": "^2.0.3",
     "ts-jest": "^25.5.1",
     "ts-loader": "^6.2.2",
     "tslint": "^5.20.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.2"
   },
   "scripts": {
     "start": "NODE_ENV=production node dist/main.js",
@@ -49,10 +45,10 @@
   "keywords": [
     "fastify",
     "typescript",
-    "firestore",
     "dependency injection",
     "jest"
   ],
+  "types": "types/index.d.ts",
   "author": "ynwd",
   "license": "MIT"
 }

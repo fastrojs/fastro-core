@@ -1,4 +1,4 @@
-import { FastifyInstance } from 'fastify'
+import fastify, { FastifyInstance, FastifyServerOptions } from 'fastify'
 import fp from 'fastify-plugin'
 import { pluginsLoader } from './loader'
 import {
@@ -17,13 +17,13 @@ interface Controller {
   hookOptions: any;
 }
 
-export const createPlugins = async (server: FastifyInstance): Promise<any> => {
+export async function initServer (options: FastifyServerOptions): Promise<FastifyInstance> {
   try {
+    const server = fastify(options)
     const plugins = await pluginsLoader()
-    plugins.map(item => {
-      server.register(fp(item.plugin))
-    })
-    return server
+    plugins.map(item => server.register(fp(item.plugin)))
+    const clonedServer = { ...server }
+    return clonedServer
   } catch (error) {
     throw createError('CREATE_PLUGINS_ERROR', error)
   }

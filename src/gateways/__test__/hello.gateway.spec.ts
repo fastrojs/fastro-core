@@ -16,6 +16,6 @@ test('GET /hello', async done => {
     url: '/hello/',
     method: 'GET'
   })
-  expect(result.payload).toBe('hello')
+  expect(result.payload).toBe('{"data":"Hello world"}')
   done()
 })

@@ -1,6 +1,4 @@
-import { FastifyInstance } from 'fastify'
-
-export const plugin = function (fastify: FastifyInstance, opts: any, next: Function): void {
+export function plugin (fastify, opts, done) {
   fastify.decorate('someSupport', () => 'hugs')
-  next()
+  done()
 }

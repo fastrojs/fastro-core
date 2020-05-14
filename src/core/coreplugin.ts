@@ -1,29 +1,20 @@
 import fp from 'fastify-plugin'
-import { FastifyInstance, FastifyReply, FastifyError } from 'fastify'
-import { ServerResponse } from 'http'
+import { FastifyError, FastifyReply, FastifyReplyInterface } from 'fastify'
 
-// the use of fastify-plugin is required to be able
-// to export the decorators to the outer scope
-
-export const corePlugin = fp(async function (fastify: FastifyInstance, opts: any, next: any) {
+export const corePlugin = fp(function (fastify, opts, next) {
   fastify
-    .decorateReply('sendOk', function<T> (this: FastifyReply<ServerResponse>, payload: T, message?: string, statusCode?: number) {
-      if (!statusCode) statusCode = 200
-      if (!message) message = 'OK'
-      this
-        .code(statusCode)
+    .decorateReply('ok', function<T> (this: FastifyReplyInterface, payload: T): FastifyReply {
+      return this
+        .code(200)
         .header('Content-Type', 'application/json; charset=utf-8')
-        .send({ data: payload, message, error: false })
+        .send({ data: payload })
     })
-    .decorateReply('sendError', function (this: FastifyReply<ServerResponse>, error: FastifyError) {
+    .decorateReply('error', function (this: FastifyReplyInterface, error: FastifyError): FastifyReply {
       let code = error.statusCode
       if (!code) code = 500
-      this.code(code)
+      return this.code(code)
         .header('Content-Type', 'application/json; charset=utf-8')
-        .send({ error: true, message: error.message })
-    })
-    .addHook('onRegister', (instance: FastifyInstance, opts: any) => {
-      // console.log('opts', opts)
+        .send({ message: error.message, error: true })
     })
   next()
 })

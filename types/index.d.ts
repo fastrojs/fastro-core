@@ -1,41 +1,41 @@
-import * as http from 'http'
-import fastify, { FastifyInstance } from 'fastify'
+import {
+  RawServerBase,
+  RawServerDefault,
+  RawRequestDefaultExpression,
+  RawReplyDefaultExpression,
+  FastifyLoggerOptions,
+  FastifyInstance,
+  FastifyServerOptions,
+  FastifyError,
+  FastifyReply,
+  ContextConfigDefault
+} from 'fastify'
 
 declare module 'fastify' {
   export interface FastifyInstance<
-    HttpServer = http.Server,
-    HttpRequest = http.IncomingMessage,
-    HttpResponse = http.ServerResponse
-    > {
-    someSupport(): string;
-  }
+    RawServer extends RawServerBase = RawServerDefault,
+    RawRequest extends RawRequestDefaultExpression<RawServer> = RawRequestDefaultExpression<RawServer>,
+    RawReply extends RawReplyDefaultExpression<RawServer> = RawReplyDefaultExpression<RawServer>,
+    Logger = FastifyLoggerOptions<RawServer>
+  > {
+      /** Some support decorator */
+      someSupport(): string;
+    }
 
-  interface RouteOptions<
-    HttpServer = http.Server,
-    HttpRequest = http.IncomingMessage,
-    HttpResponse = http.ServerResponse,
-    Query = DefaultQuery,
-    Params = DefaultParams,
-    Headers = DefaultHeaders,
-    Body = DefaultBody
-  > extends RouteShorthandOptions<HttpServer, HttpRequest, HttpResponse, Query, Params, Headers, Body> {
-    method: HTTPMethod | HTTPMethod[];
-    url: string;
-    schema?: RouteSchema;
-    handler: RequestHandler<HttpRequest, HttpResponse, Query, Params, Headers, Body>;
-  }
-
-  interface FastifyInstance<HttpServer = http.Server, HttpRequest = http.IncomingMessage, HttpResponse = http.ServerResponse> {
-    addHook (name: 'onRegister', hook: (instance: FastifyInstance, opts: any) => void): FastifyInstance<HttpServer, HttpRequest, HttpResponse>;
-  }
-
-  interface FastifyReply<HttpResponse>{
-    sendOk<T>(this: FastifyReply<HttpResponse>, payload?: T, message?: string, statusCode?: number): void;
-    sendError(this: FastifyReply<HttpResponse>, error: FastifyError): void;
+  // https://www.fastify.io/docs/latest/TypeScript/#request
+  // https://www.fastify.io/docs/latest/TypeScript/#reply
+  export interface FastifyReplyInterface<
+    RawServer extends RawServerBase = RawServerDefault,
+    RawReply extends RawReplyDefaultExpression<RawServer> = RawReplyDefaultExpression<RawServer>,
+    ContextConfig = ContextConfigDefault
+  > {
+    // you must reference the interface and not the type
+    ok<T>(this: FastifyReplyInterface, payload?: T): FastifyReply<RawServer, RawReply>;
+    error(this: FastifyReplyInterface, error: FastifyError): FastifyReply<RawServer, RawReply>;
   }
 }
 
-export type config = {
+type config = {
   app: {
     port: number;
     host: string;
@@ -43,7 +43,6 @@ export type config = {
 }
 
 type HookName = 'onRequest' | 'onResponse' | 'preParsing' | 'preValidation' | 'preHandler' | 'preSerialization'
-
 export declare function GatewayHook(hook: HookName): Function
 export declare function Hook(hook: HookName): Function
 export declare function Get(options?: any): Function
@@ -59,7 +58,7 @@ export declare function Controller(options?: any): Function
 export declare function Service(): Function
 export declare function InjectController(controller: Function): any
 export declare function InjectService(service: Function): any
-export declare function createServer(fastifyOpts?: fastify.ServerOptions): Promise<FastifyInstance>
+export declare function createServer(fastifyOpts?: FastifyServerOptions): Promise<FastifyInstance>
 export declare function start(server: FastifyInstance): Promise<void>
 export declare function createError(name: string, error: Error): Error
 export declare function loader (): Promise<void>

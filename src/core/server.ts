@@ -1,19 +1,18 @@
-import fastify, { FastifyInstance } from 'fastify'
+import { FastifyInstance, FastifyServerOptions } from 'fastify'
 import { loader } from './loader'
 import { configuration as config } from './configuration'
 import { createError } from './error'
 import { corePlugin } from './coreplugin'
 import {
-  createPlugins,
+  initServer,
   createControllers,
   createGateways
 } from './module.creator'
 
-export const createServer = async (options?: fastify.ServerOptions): Promise<FastifyInstance> => {
+export async function createServer (options: FastifyServerOptions): Promise<FastifyInstance> {
   try {
-    await loader() // load all service & controller classes for dependency injection
-    let server = fastify(options)
-    server = await createPlugins(server)
+    await loader()
+    const server = await initServer(options)
     const gateways = createGateways()
     const controllers = createControllers()
     server
@@ -30,7 +29,7 @@ export const createServer = async (options?: fastify.ServerOptions): Promise<Fas
  * Start server
  * @param server
  */
-export const start = async (server: FastifyInstance): Promise<void> => {
+export async function start (server: FastifyInstance): Promise<void> {
   await server.ready()
   const configuration = config
   const host = configuration.app.host ? configuration.app.host : '0.0.0.0'

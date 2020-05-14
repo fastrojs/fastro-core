@@ -1,5 +1,5 @@
 import { createServer, start } from './core'
 
-createServer().then(server => {
+createServer({ logger: false }).then(server => {
   start(server)
 })
