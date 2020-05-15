@@ -1,4 +1,4 @@
-import fastify, { FastifyInstance } from 'fastify'
+import fastify, { FastifyInstance, ServerOptions } from 'fastify'
 import { loader } from './loader'
 import { configuration as config } from './configuration'
 import { createError } from './error'
@@ -9,7 +9,7 @@ import {
   createGateways
 } from './module.creator'
 
-export const createServer = async (options?: fastify.ServerOptions): Promise<FastifyInstance> => {
+export const createServer = async (options?: ServerOptions): Promise<FastifyInstance> => {
   try {
     await loader() // load all service & controller classes for dependency injection
     let server = fastify(options)

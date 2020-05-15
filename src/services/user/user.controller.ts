@@ -11,6 +11,6 @@ export class UserController {
   @Get()
   async getAll (request: FastifyRequest, reply: FastifyReply<ServerResponse>): Promise<void> {
     const users = await this.userService.helloUser()
-    reply.sendOk(users)
+    reply.ok(users)
   }
 }

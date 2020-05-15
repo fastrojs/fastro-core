@@ -1,5 +1,5 @@
 import * as http from 'http'
-import fastify, { FastifyInstance } from 'fastify'
+import { FastifyInstance } from 'fastify'
 
 declare module 'fastify' {
   export interface FastifyInstance<
@@ -30,8 +30,8 @@ declare module 'fastify' {
   }
 
   interface FastifyReply<HttpResponse>{
-    sendOk<T>(this: FastifyReply<HttpResponse>, payload?: T, message?: string, statusCode?: number): void;
-    sendError(this: FastifyReply<HttpResponse>, error: FastifyError): void;
+    ok<T>(this: FastifyReply<HttpResponse>, payload?: T): void;
+    error(this: FastifyReply<HttpResponse>, error: FastifyError): void;
   }
 }
 
@@ -59,7 +59,7 @@ export declare function Controller(options?: any): Function
 export declare function Service(): Function
 export declare function InjectController(controller: Function): any
 export declare function InjectService(service: Function): any
-export declare function createServer(fastifyOpts?: fastify.ServerOptions): Promise<FastifyInstance>
+export declare function createServer(fastifyOpts?: ServerOptions): Promise<FastifyInstance>
 export declare function start(server: FastifyInstance): Promise<void>
 export declare function createError(name: string, error: Error): Error
 export declare function loader (): Promise<void>
